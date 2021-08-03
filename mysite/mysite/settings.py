@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-dyba*=u(8^++i+m*j6#*7b(r^02f5ejqxa5y##j-3%vi)v(vq#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1","192.168.86.235", "67.82.211.17", "stuyfencingclub.studio"]
 
 
 # Application definition
