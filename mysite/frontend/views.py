@@ -29,7 +29,10 @@ def view(request, day):
     for bud in Student.objects.all():
         try:
             result = bud.assignment_set.get(hwNumber=day)
-            learners[bud.email] = result
+            if (bud.name):
+                learners[bud.name] = result
+            else:
+                learners[bud.email] = result
         except:
             learners[bud.email] = False
     context["students"] = learners
