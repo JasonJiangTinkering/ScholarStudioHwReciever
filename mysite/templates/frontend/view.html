@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>HW{{day}} submissions</title>
+  </head>
+  <body>
+      <style>
+          #mainStorage{
+            display: flex;
+            flex-wrap: wrap;
+          }
+          span{
+            width: 280px;
+            height: 280px;
+            border: 5px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          img{
+              width: 200px;
+              height: 200px;
+          }
+      </style>
+    <h1>Day {{day}} submissions</h1>
+    <div id="mainStorage">
+        {% for student, img in students.items %}
+        <span>
+            {% if img %}
+                <img src= '{{ MEDIA_URL }}{{ img.image }}'/>
+            {% endif %}
+        </span>
+        {% endfor %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Submit HW1</title>
+  </head>
+  <body>
+    <style>
+      form{
+        display: flex;
+        flex-wrap: wrap;
+        width: 15em;
+      }
+    </style>
+    <center>
+    <form action="" method = "POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form }}
+      <input type = "submit" value = "Submit">
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $("form").submit(function() {
+      if (window.File && window.FileReader && window.FileList && window.Blob) {
+        var file = $('#id_file')[0].files[0];
+
+        if (file && file.size > 2621440) {
+          alert("File " + file.name + " of type " + file.type + " is too big");
+          return false;
+        }
+      }
+    });
+    </script>
+  <p>
+  submits are final, please double check the file you are sending
+</p>
+<p>
+  files must be less than 2.5 MB
+<br>
+    <a href="https://www.reduceimages.com/">https://www.reduceimages.com/</a>
+    <br>
+    <a href="https://tinypng.com/">https://tinypng.com/</a>
+
+</p>
+</center>
+  </body>
+</html>
