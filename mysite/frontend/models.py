@@ -1,8 +1,8 @@
 from django.db import models
-from django.forms.fields import EmailField, ImageField
-from django.forms.widgets import NumberInput
+# from django.forms.fields import EmailField, ImageField
+# from django.forms.widgets import NumberInput
 
-# Create your models here.
+# Create your models here.s
 class Student(models.Model):
     name = models.CharField(default ="", blank=True, max_length=255)
     email = models.EmailField()
@@ -13,3 +13,11 @@ class Assignment(models.Model):
     hwNumber = models.IntegerField()
     image = models.ImageField(upload_to='images')
     REQUIRED_FIELDS = ['student', 'hwNumber', 'image']
+
+
+class Glitchassignment(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    hwNumber = models.IntegerField()
+    url = models.URLField(max_length=200)
+    REQUIRED_FIELDS = ['student', 'hwNumber', 'url']
+

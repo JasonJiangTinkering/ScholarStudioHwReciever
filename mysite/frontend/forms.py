@@ -18,3 +18,7 @@ def file_size(value): # add this to some file where you can import it from
 class hw1(forms.Form):
     email = forms.EmailField(label='Your email', max_length=200)
     file = forms.FileField(label='Pic of hw', validators=[file_size])
+
+class glitchHw(forms.Form):
+    email = forms.EmailField(label='Your email', max_length=200)
+    url = forms.URLField(label='Your glitch LIVE SITE link')

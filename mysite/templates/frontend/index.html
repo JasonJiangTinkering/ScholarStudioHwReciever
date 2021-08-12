@@ -31,18 +31,26 @@
       }
     });
     </script>
-  <p>
-  submits are final, please double check the file you are sending
-  Use the email that you signed up on google classroom with.
-</p>
-<p>
-  files must be less than 2.5 MB
-<br>
-    <a href="https://www.reduceimages.com/">https://www.reduceimages.com/</a>
-    <br>
-    <a href="https://tinypng.com/">https://tinypng.com/</a>
+    {% if type == "image" %}
+      <p>
+        submits are final, please double check the file you are sending
+        Use the email that you signed up on google classroom with.
+      </p>
+      <p>
+        files must be less than 2.5 MB
+      <br>
+        <a href="https://www.reduceimages.com/">https://www.reduceimages.com/</a>
+        <br>
+        <a href="https://tinypng.com/">https://tinypng.com/</a>
 
-</p>
+      </p>
+    {% elif type == "glitch"%}
+      <p> Example format:
+        <br>
+        https://peat-linen-scale.glitch.me/
+      </p>
+
+    {% endif %}
 </center>
   </body>
 </html>

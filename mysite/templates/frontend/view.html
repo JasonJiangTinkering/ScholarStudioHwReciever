@@ -9,10 +9,17 @@
           #mainStorage{
             display: flex;
             flex-wrap: wrap;
+            {% if view == "glitch" %}
+            flex-direction: column;
+            {% endif%}
           }
           span{
+            {% if view == "image" %}
             width: 280px;
             height: 280px;
+            {% elif view =="glitch" %}
+            height: 500px;
+            {% endif %}
             border: 5px solid black;
             display: flex;
             align-items: center;
@@ -37,12 +44,24 @@
 
     <h1>Day {{day}} submissions</h1>
     <div id="mainStorage">
-        {% for student, img in students.items %}
+        {% for student, content in students.items %}
         <span>
             <p class="student-name">{{student}}</p>
-
-            {% if img %}
-                <img src='{{ MEDIA_URL }}{{ img.image }}'/>
+            {% if view == "image" %}
+              {% if content %}
+                  <img src='{{ MEDIA_URL }}{{ content.image }}'/>
+              {% endif %}
+            {% elif view == "glitch" %}
+              {% if content %}
+              <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
+                <iframe
+                  src="https://glitch.com/embed/#!/embed/{{content}}?path=README.md&previewSize=100&sidebarCollapsed=true"
+                  title="peat-linen-scale on Glitch"
+                  allow="geolocation; microphone; camera; midi; vr; encrypted-media"
+                  style="height: 100%; width: 100%; border: 0;">
+                </iframe>
+              </div>
+              {% endif %}
             {% endif %}
         </span>
         {% endfor %}
