@@ -2,13 +2,16 @@ from django.conf.urls import url
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
-from .forms import hw1, glitchHw
+from .forms import hw1, glitchHw, InitChallengerForm
 from .models import Student, Assignment, Glitchassignment
 from django.http import HttpResponseRedirect
 from annoying.functions import get_object_or_None
 
 def game_homepage(request):
-    return render(request, 'frontend/game_homepage.html')
+    context = {
+        'form' : InitChallengerForm()
+    }
+    return render(request, 'frontend/game_homepage.html', context)
 
 def game_go(request, code):
     print("Player " + code + " has logged in");

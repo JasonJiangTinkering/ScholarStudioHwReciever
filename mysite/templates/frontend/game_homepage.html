@@ -5,6 +5,44 @@
     <title></title>
   </head>
   <body>
+    <style media="screen">
+    html{
+      font-size: 3vw;
+    }
+    html, body{
+      overflow-x: hidden;
+    }
+      #form{
+        font-size: 10vw;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      #form > label{
+        margin-left: .5em;
+      }
+      #form > *{
+        border-width: medium;
+      }
+      #form > input, textarea{
+        font-size: 6vw;
+      }
+      #form > input {
+        height: 5vh;
+        width: 65vw;
+      }
+      #form > input::after{
+        content: "\a";
+      }
+      #form > button{
+        width: 23vw;
+        height: 7vh;
+        font-size: 5vw;
+      }
+    </style>
+
     <h1>
       Happy Valentines Day!
     </h1>
@@ -19,7 +57,7 @@
 <li>when you load the page that will be your only chance to play the game, do not exit or reload the page
 or your time will end
 </li>
-<li><b>If all hell breaks out and the server gets set on fire, then everyone will get 6 candies
+<li><b>If all hell breaks out and my server gets set on fire, then everyone will get 6 candies
 and we will call it a day
 </b>
 </li>
@@ -35,6 +73,13 @@ and we will call it a day
       Provide your gamecode, locker number, name, and optionally any dietary restrictions to get started
     </p>
 <!-- insert form here -->
+<div>
+    <form id="form" action="." method="post" autocomplete="off">
+    {{form}}
+    <button type="submit">Submit</button>
+    </form>
+</div>
+<p>Created using django: github link <a href="https://github.com/jasonjiangstuy/ScholarStudioHwReciever/tree/valentinedaybigsibs">here</a> (warning: not pretty code this was a rush job built on a existing project lololol)</p>
 
   </body>
 </html>

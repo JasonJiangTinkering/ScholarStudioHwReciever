@@ -1,5 +1,5 @@
 from django import forms
-
+from .models import GameChallenger
 from django.core.exceptions import ValidationError
 
 def file_size(value): # add this to some file where you can import it from
@@ -23,5 +23,9 @@ class glitchHw(forms.Form):
     email = forms.EmailField(label='Your email', max_length=200)
     url = forms.URLField(label='Your glitch LIVE SITE link')
 
-# class welcomeChallengerForm(forms.ModelForms):
+class InitChallengerForm(forms.ModelForm):
+    class Meta:
+        model = GameChallenger
+        fields = ['name', 'code', 'lockernumber', 'dietary_restrictions']
+
 # two inputs for name, lockernubmer, and code
