@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Valentines Challenge Event</title>
+  </head>
+  <style media="screen">
+    .header{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      align-items: center;
+      z-index: 2;
+    }
+    .header > * {
+      border: 1px solid black;
+      padding: 5px;
+    }
+    #projected{
+      content: "This is only a current estimate of your time compared to everyone elses, as others drop out and your drop out, this number will change";
+    }
+    #targetarea{
+      width: 500px;
+      height: 500px;
+      background-size: contain;
+      background-image: url("https://cdn.pixabay.com/photo/2017/05/30/08/31/heart-2356169_1280.png");
+    }
+    #targetareacontainer{
+      display: grid;
+      justify-content: center;
+    }
+  </style>
+  <body>
+    <div class="header">
+      <span>Player Name: _PLAYERNAME_</span>
+      <span>Game Status: Not Started </span>
+      <span>Time Held: xx seconds</span>
+      <span>Game Time Left: xx seconds</span>
+      <span>Time Percentage: </span>
+      <span id="projected">Projected Candy Reward: </span>
+    </div>
+    <div id="targetareacontainer">
+      <div id="targetarea">
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript">
+
+  // blocking scrolling code
+  // left: 37, up: 38, right: 39, down: 40,
+// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+function preventDefault(e) {
+  e.preventDefault();
+}
+
+function preventDefaultForScrollKeys(e) {
+  if (keys[e.keyCode]) {
+    preventDefault(e);
+    return false;
+  }
+}
+
+// modern Chrome requires { passive: false } when adding event
+var supportsPassive = false;
+try {
+  window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+    get: function () { supportsPassive = true; }
+  }));
+} catch(e) {}
+
+var wheelOpt = supportsPassive ? { passive: false } : false;
+var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+// call this to Disable
+function disableScroll() {
+  window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+  window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+  window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+  window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+}
+
+
+
+  function startgame(){
+    // establish web socket connnection with server
+  }
+  // web sockets functions
+/*
+Client:
+Start game
+end game
+continue game
+
+Server:
+Recieved Start Game
+End game
+Update time
+
+
+*/
+
+  // SUDO CODE
+    // var targetarea = Document.querySelector("body");
+    // var gameInterval;
+    // targetarea.pressed(function(){
+    //   startgame();
+    //   gameInterval = setInterval(function () {
+    //     continueStatus();
+    //   }, 10);
+    // });
+    // targetarea.released(function(){
+    //   endgame();
+    // });
+    // ondocumentload
+
+window.addEventListener('load', (event) => {
+  console.log('page is fully loaded');
+  disableScroll();
+
+});
+
+  </script>
+</html>

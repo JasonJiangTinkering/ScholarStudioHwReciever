@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     # path('', views.index, name='index'),
-    path('', views.glitchsubmit, name='glitchsubmit'),
-    path('hw/day<int:day>/', views.view, name='viewhw'),
-    
+    path('', views.game_homepage, name='game_homepage'),
+    path('game/code/<code>', views.game_go, name='game_go')
+    # build code url later
 ]

@@ -6,6 +6,14 @@ from .forms import hw1, glitchHw
 from .models import Student, Assignment, Glitchassignment
 from django.http import HttpResponseRedirect
 from annoying.functions import get_object_or_None
+
+def game_homepage(request):
+    return render(request, 'frontend/game_homepage.html')
+
+def game_go(request, code):
+    print("Player " + code + " has logged in");
+    return render(request, 'frontend/game_go.html')
+
 # Create your views here.
 def index(request):
     if request.method == "POST":
@@ -14,11 +22,11 @@ def index(request):
             thisStudent = get_object_or_None(Student, email=form.cleaned_data['email'])
             if thisStudent and not thisStudent.assignment_set.filter(hwNumber=1).exists():
                 thisStudent.assignment_set.create(hwNumber = 1, image = form.cleaned_data['file'])
-                return HttpResponse('file submitted') 
+                return HttpResponse('file submitted')
             else:
-                return HttpResponse('file already submitted or student not found') 
+                return HttpResponse('file already submitted or student not found')
         print(form.errors)
-        
+
     context = {
         'form' : hw1()
     }
@@ -32,17 +40,17 @@ def glitchsubmit(request):
             if thisStudent:
                 if (not thisStudent.glitchassignment_set.filter(hwNumber=2).exists()):
                     thisStudent.glitchassignment_set.create(hwNumber =2, url = form.cleaned_data['url'])
-                    return HttpResponse('file submitted') 
+                    return HttpResponse('file submitted')
                 else:
-                    return HttpResponse('ERROR: file already submitted')     
+                    return HttpResponse('ERROR: file already submitted')
             else:
-                return HttpResponse('ERROR: student not found') 
+                return HttpResponse('ERROR: student not found')
     context = {
         'form' : glitchHw(),
         "type": "glitch"
     }
     return render(request, 'frontend/index.html', context)
-    
+
 
 def view(request, day):
     context = {}
@@ -54,7 +62,7 @@ def view(request, day):
                 context["view"] = "image"
             else:
                 result = bud.glitchassignment_set.get(hwNumber=day)
-                
+
                 result = result.url
                 print(result)
                 result = result[:result.find('.')]
@@ -73,4 +81,3 @@ def view(request, day):
     context["day"] = day
     print(context)
     return render(request, 'frontend/view.html', context)
-

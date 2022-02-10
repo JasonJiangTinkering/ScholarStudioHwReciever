@@ -21,3 +21,9 @@ class Glitchassignment(models.Model):
     url = models.URLField(max_length=200)
     REQUIRED_FIELDS = ['student', 'hwNumber', 'url']
 
+class GameChallenger(models.Model):
+    name = models.CharField(blank=False, max_length=50)
+    code = models.IntegerField()
+    lockernumber = models.IntegerField()
+    logged_in = models.BooleanField()
+    # time started
