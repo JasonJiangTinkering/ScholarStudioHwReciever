@@ -28,4 +28,5 @@ class InitChallengerForm(forms.ModelForm):
         model = GameChallenger
         fields = ['name', 'code', 'lockernumber', 'dietary_restrictions']
 
+
 # two inputs for name, lockernubmer, and code

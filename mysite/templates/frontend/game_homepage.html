@@ -54,7 +54,7 @@
 <li>When everyone has tried their best, for every 4% of the total time that you hold, one chocolate appear taped to the outside of your locker like magic!
 </li>
 <li>Using Quick Maths, the 6 of yall are competing for a pot of 25 candies.</li>
-<li>when you load the page that will be your only chance to play the game, do not exit or reload the page
+<li>when you load the page that will be your only chance to play the game, do not exit/reload/or open the page in the new tab
 or your time will end
 </li>
 <li><b>If all hell breaks out and my server gets set on fire, then everyone will get 6 candies
@@ -76,6 +76,7 @@ and we will call it a day
 <div>
     <form id="form" action="." method="post" autocomplete="off">
     {{form}}
+    {% csrf_token %}
     <button type="submit">Submit</button>
     </form>
 </div>

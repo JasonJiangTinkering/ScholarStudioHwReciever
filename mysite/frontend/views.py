@@ -1,21 +1,81 @@
 from django.conf.urls import url
+from django.urls import reverse
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import RequestContext
 from .forms import hw1, glitchHw, InitChallengerForm
-from .models import Student, Assignment, Glitchassignment
+from .models import Student, Assignment, Glitchassignment, PresetChallenger, GameChallenger
 from django.http import HttpResponseRedirect
 from annoying.functions import get_object_or_None
-
+from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime, timezone
+import datetime as datetimeparent
+import json
 def game_homepage(request):
+    if request.method == 'POST':
+        f = InitChallengerForm(request.POST);
+        if f.is_valid():
+            print("Challenger's Code:" + str(f.cleaned_data['code']))
+            foundPreset = None
+            try:
+                foundPreset = PresetChallenger.objects.get(player_code=f.cleaned_data['code'])
+            except ObjectDoesNotExist:
+                print("Code does not exist")
+            challenger = f.save()
+            foundPreset.GameChallenger = challenger
+            foundPreset.save()
+            return redirect(reverse('game_go', args=[getattr(challenger, 'code')]))
     context = {
         'form' : InitChallengerForm()
     }
     return render(request, 'frontend/game_homepage.html', context)
+def game_post(request):
+    if request.method == 'POST':
+        # reject if spectating
+        data = request.read().decode('ascii')
+        print("Post Request recieved from" + data)
+        challenger = GameChallenger.objects.get(code=data)
+        if challenger.time_started is None:
+            challenger.time_started = datetime.now()
+        challenger.latest_time = datetime.now()
+        challenger.save();
+        totaltime = 0
+        for i in GameChallenger.objects.all().iterator():
+            totaltime += i.time_held()
+        outrequest = {
+            "time_held": challenger.time_held(),
+             "total_time": totaltime,
+        }
+        return HttpResponse(json.dumps(outrequest))
+
 
 def game_go(request, code):
-    print("Player " + code + " has logged in");
-    return render(request, 'frontend/game_go.html')
+    # test if event has started
+    challenger = GameChallenger.objects.get(code=code)
+    if challenger.logged_in:
+        print("Player " + code + " has relogged in")
+        # you may no longer play
+        challenger.presetchallenger.active = False
+        challenger.save()
+    else:
+        print("Player " + code + " has logged in")
+        challenger.logged_in = True
+        challenger.save()
+    print("now" + str(type(datetime.now(timezone.utc))) + " : " + str(type(challenger.presetchallenger.event_end)))
+    print("now" + str(datetime.now(timezone.utc)) + " : " + str(challenger.presetchallenger.event_end))
+    start_time = datetime.now().time()
+    stop_time = challenger.presetchallenger.event_end
+    print(start_time)
+    date = datetimeparent.date(1, 1, 1)
+    datetime1 = datetime.combine(date, start_time)
+    datetime2 = datetime.combine(date, stop_time)
+    time_left = datetime1 - datetime2
+    print(time_left)
+    context = {
+        "player": challenger,
+        "time_left": time_left
+    }
+    return render(request, 'frontend/game_go.html', context)
 
 # Create your views here.
 def index(request):

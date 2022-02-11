@@ -17,6 +17,8 @@ SECRET_KEY = get_random_secret_key();
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# USE_TZ = True
+# TIME_ZONE = 'America/New_York'
 ALLOWED_HOSTS = ["127.0.0.1","192.168.86.235", "67.82.211.17", "stuyfencingclub.studio"]
 
 
