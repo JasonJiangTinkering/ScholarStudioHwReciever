@@ -35,19 +35,20 @@ def game_post(request):
         data = request.read().decode('ascii')
         print("Post Request recieved from" + data)
         challenger = GameChallenger.objects.get(code=data)
-        if challenger.time_started is None:
-            challenger.time_started = datetime.now()
-        challenger.latest_time = datetime.now()
-        challenger.save();
-        totaltime = 0
-        for i in GameChallenger.objects.all().iterator():
-            totaltime += i.time_held()
-        outrequest = {
-            "time_held": challenger.time_held(),
-             "total_time": totaltime,
-        }
-        return HttpResponse(json.dumps(outrequest))
-
+        if (challenger.presetchallenger.active):
+            if challenger.time_started is None:
+                challenger.time_started = datetime.now()
+            challenger.latest_time = datetime.now()
+            challenger.save();
+            totaltime = 0
+            for i in GameChallenger.objects.all().iterator():
+                totaltime += i.time_held()
+            outrequest = {
+                "time_held": challenger.time_held(),
+                "time_left": challenger.time_left(),
+                 "total_time": totaltime,
+            }
+            return HttpResponse(json.dumps(outrequest))
 
 def game_go(request, code):
     # test if event has started
@@ -61,19 +62,9 @@ def game_go(request, code):
         print("Player " + code + " has logged in")
         challenger.logged_in = True
         challenger.save()
-    print("now" + str(type(datetime.now(timezone.utc))) + " : " + str(type(challenger.presetchallenger.event_end)))
-    print("now" + str(datetime.now(timezone.utc)) + " : " + str(challenger.presetchallenger.event_end))
-    start_time = datetime.now().time()
-    stop_time = challenger.presetchallenger.event_end
-    print(start_time)
-    date = datetimeparent.date(1, 1, 1)
-    datetime1 = datetime.combine(date, start_time)
-    datetime2 = datetime.combine(date, stop_time)
-    time_left = datetime1 - datetime2
-    print(time_left)
     context = {
         "player": challenger,
-        "time_left": time_left
+        "time_left": challenger.time_left()
     }
     return render(request, 'frontend/game_go.html', context)
 

@@ -32,7 +32,6 @@ class PresetChallenger(models.Model):
     GameChallenger = models.OneToOneField(
         "GameChallenger", on_delete=models.CASCADE, null=True, blank=True
     ) # connect with the challenger
-
     REQUIRED_FIELDS = ['event_start', 'event_end', 'player_code']
 
 class GameChallenger(models.Model):
@@ -44,6 +43,17 @@ class GameChallenger(models.Model):
     time_started = models.TimeField(null=True, blank=True) #set during first instance of add latest time
     latest_time = models.TimeField(null=True, blank=True) #set at every http request to the server
     REQUIRED_FIELDS = ['name', 'code', 'lockernumber']
+    def time_left(self):
+        print("now" + str(type(datetime.now(timezone.utc))) + " : " + str(type(self.presetchallenger.event_end)))
+        print("now" + str(datetime.now(timezone.utc)) + " : " + str(self.presetchallenger.event_end))
+        start_time = datetime.now().time()
+        stop_time = self.presetchallenger.event_end
+        print(start_time)
+        date = datetimeparent.date(1, 1, 1)
+        datetime1 = datetime.combine(date, start_time)
+        datetime2 = datetime.combine(date, stop_time)
+        time_left = datetime1 - datetime2
+        return(time_left.total_seconds() )
 
     # time started
     def time_held(self):

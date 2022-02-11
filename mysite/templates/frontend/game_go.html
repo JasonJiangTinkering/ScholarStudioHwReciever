@@ -48,7 +48,7 @@
       </span>
       <span>Time Held: <span id="time_held">XX</span> seconds</span>
       <span>Game Time Left: <span id="time_left">{{time_left}}</span> seconds</span>
-      <span>Total Time Percentage: <spanid="percent"></span> </span>
+      <span>Total Time Percentage: <span id="percent"></span> </span>
       <span id="projected">Projected Candy Reward: <span id="Pcandies"></span></span>
     </div>
     <div id="targetareacontainer">
@@ -99,13 +99,13 @@ function disableScroll() {
   1 - started
   2 - ended
 */
-gameStage = 0;
-
-// {% if player.presetchallenger.active %}
 // gameStage = 0;
-// {% else %}
-//   gameStage = 2;
-// {% endif %}
+
+{% if player.presetchallenger.active %}
+gameStage = 0;
+{% else %}
+  gameStage = 2;
+{% endif %}
   var start_time_js;
   var time_held = 0;
   function updateTimeHeld(){
@@ -132,6 +132,8 @@ gameStage = 0;
   function endgame(){
     console.log("Ending Game");
     clearInterval(pressedInvervalCheck);
+    clearInterval(sendToServer);
+
   }
   function sendToServer(){
     var xhr = new XMLHttpRequest();
@@ -140,11 +142,15 @@ gameStage = 0;
     xhr.setRequestHeader("Content-Type", "text/plain");
     xhr.onreadystatechange = function (){
       if (xhr.readyState === 4){
-        var data = JSON.parse(xhr.response);
+        var data=xhr.responseText;
+        var data = JSON.parse(data);
+        // data = data["Data"];
+        // console.log(data);
+
         let ele = document.querySelector("#time_left");
         ele.innerHTML = data.time_left;
         // data.percent is decimil percent of total time
-        percent = Math.ceil(data.percent * 100);
+        percent = (Math.ceil(data.time_held / data.total_time) * 100);
         candies = Math.ceil(percent / 4);
         ele = document.querySelector("#percent");
         ele.innerHTML = percent;
@@ -214,7 +220,34 @@ window.addEventListener('load', (event) => {
   // on press + release
   targetareacontainer.onmousedown = function(){UpdateGame(1)};
   targetareacontainer.onmouseup = function(){UpdateGame(1)};
+  var onlongtouch;
+var timer;
+var touchduration = 800; //length of time we want the user to touch before we do something
 
+function touchstart(e) {
+    e.preventDefault();
+    if (!timer) {
+        timer = setTimeout(onlongtouch, touchduration);
+    }
+}
+
+function touchend() {
+    //stops short touches from firing the event
+    if (timer) {
+        clearTimeout(timer);
+        timer = null;
+    }
+}
+
+onlongtouch = function() {
+    timer = null;
+    targetareacontainer.innerText+='ping\n';
+};
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    window.addEventListener("touchstart", touchstart, false);
+    window.addEventListener("touchend", touchend, false);
+});
 
 });
 

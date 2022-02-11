@@ -19,7 +19,7 @@ DEBUG = True
 
 # USE_TZ = True
 # TIME_ZONE = 'America/New_York'
-ALLOWED_HOSTS = ["127.0.0.1","192.168.86.235", "67.82.211.17", "stuyfencingclub.studio"]
+ALLOWED_HOSTS = ["127.0.0.1","192.168.86.235", "67.82.211.17", "stuyfencingclub.studio", "jasonjiang.pagekite.me"]
 
 
 # Application definition
