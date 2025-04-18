@@ -9,15 +9,15 @@
           #mainStorage{
             display: flex;
             flex-wrap: wrap;
-            {% if view == "glitch" %}
-            flex-direction: column;
-            {% endif%}
+            flex-direction: row;
           }
+          
           span{
             {% if view == "image" %}
             width: 280px;
             height: 280px;
-            {% elif view =="glitch" %}
+            {% elif view == "glitch" %}
+            width: 1000px;
             height: 500px;
             {% endif %}
             border: 5px solid black;

@@ -72,5 +72,6 @@ def view(request, day):
     context["students"] = learners
     context["day"] = day
     print(context)
+    
     return render(request, 'frontend/view.html', context)
 
